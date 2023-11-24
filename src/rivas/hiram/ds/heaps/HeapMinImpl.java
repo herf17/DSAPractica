@@ -6,10 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class HeapMinImpl {
-
-    int [] valores = new int[10];
+    int MAX_size = 100000;
+    int[] valores = new int[MAX_size + 1];
 
     int tamano= 0;
 
@@ -25,6 +26,27 @@ public class HeapMinImpl {
         hepifyup();
     }
 
+    public void borrar(int val){
+        int j = IntStream.range(0, valores.length)
+                .filter(i -> valores[i] == val)
+                .findFirst()
+                .orElse(-1);
+        if (j == -1) {
+            throw new RuntimeException("Error: Not found");
+        }
+        tamano--;
+        valores[j] = valores[tamano];
+        hepifydown(j);
+    }
+
+    public int poll(){
+        int val = valores[0];
+        tamano--;
+        valores[0] = valores[tamano];
+        hepifydown(0);
+        return val;
+    }
+
     public void hepifyup(){
         int indc =tamano-1;
         while ( hasParent(indc) && valores[indc]< valores[getParent(indc)]){
@@ -32,12 +54,28 @@ public class HeapMinImpl {
             indc= getParent(indc);
         }
     }
-    public void hepifydown(){
-
-
+    public void hepifydown(int indx){
+        while(hasleftchild(indx)){
+            int pequenoleftright = getleftChild(indx);
+            if (hasrigthchild(indx) && getRightChild(indx)<getleftChild(indx)){
+                pequenoleftright = getRightChild(indx);
+            }
+            if(valores[indx] < valores[pequenoleftright]){
+                break;
+            }else{
+                swap(indx,pequenoleftright);
+            }
+            indx=pequenoleftright;
+        }
     }
     public boolean isFull(){
         return true;
+    }
+    public boolean hasleftchild(int indx){
+        return getleftChild(indx)<tamano;
+    }
+    public boolean hasrigthchild(int indx){
+        return getRightChild(indx)<tamano;
     }
     public int getleftChild(int indx){
         return (indx*2)+1;
@@ -56,7 +94,14 @@ public class HeapMinImpl {
     }
 
     public int peek(){
+        if (isEmpty())
+            throw new RuntimeException("Error: Heap is empty");
+
         return valores[0];
+    }
+
+    public boolean isEmpty() {
+        return tamano <= 0;
     }
 
     public static void main(String[] args){
@@ -71,26 +116,26 @@ public class HeapMinImpl {
                 }*/
                 if(line.split(" ").length>1){
                     int opert=Integer.parseInt(line.split(" ")[0]);
-                    System.out.println("OPR: "+opert);
+                    //System.out.println("OPR: "+opert);
                     int value=Integer.parseInt(line.split(" ")[1]);
-                    System.out.println("VALU: "+value);
+                    //System.out.println("VALU: "+value);
                     if (opert == 1){
                         heapMin.add(value);
                     }else{
-
+                        heapMin.borrar(value);
                     }
                 }else{
                     System.out.println(heapMin.peek());
                 }
 
-                System.out.println(line);
+                //System.out.println(line);
                 line = buff.readLine();
             }
         }
         catch (IOException ioe){
 
         }
-        System.out.println(Arrays.toString(heapMin.valores));
+        //System.out.println(Arrays.toString(heapMin.valores));
 
     }
 }
