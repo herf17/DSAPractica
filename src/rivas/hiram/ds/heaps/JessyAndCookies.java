@@ -28,6 +28,8 @@ class Result {
             heap.add(firstmin+(2*secondtmin));
             count++;
         }
+        if(heap.isEmpty())
+            return -1;
         /*System.out.println(Arrays.toString(heap.valores));
         System.out.println(count);*/
 
