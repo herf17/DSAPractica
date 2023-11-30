@@ -8,6 +8,32 @@ import static java.util.stream.Collectors.toList;
 
 class Result {
 
+    public static class Node {
+        int data;
+        Node left;
+        Node right;
+    }
+
+    public static void bfs(List<Integer> lista, Node node){
+
+    }
+    public static void swap(){
+
+    }
+    public static void NodetoList(Node nodo,List<Integer> iter){
+        if(nodo ==null){
+            return;
+        }
+        if(nodo.left != null){
+            NodetoList(nodo.left,iter);
+        }
+        iter.add(nodo.data);
+        if(nodo.right != null){
+            NodetoList(nodo.right,iter);
+        }
+
+    }
+
     /*
      * Complete the 'swapNodes' function below.
      *
@@ -19,15 +45,28 @@ class Result {
 
     public static List<List<Integer>> swapNodes(List<List<Integer>> indexes, List<Integer> queries) {
         // Write your code here
-        return indexes;
+        Queue<Node> cola = new LinkedList<>();
+        /*Segun problema root siempre es 1*/
+        List<List<Integer>> resultado = new ArrayList<>();
+
+        /*Crear tree segun */
+
+        /*Recorrer queries*/
+        for(Integer i : queries){
+            List<Integer> queryiter = new ArrayList<>();
+            NodetoList(resultado,);
+            resultado.add(queryiter);
+        }
+        return resultado;
     }
 
 }
 
 public class SwapNodesAlgTRee {
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("/home/vyper/IdeaProjects/DSAPracticas/resources/tree/SwapNodesAlgTree/input/input00.txt"));
+        FileWriter file = new FileWriter("ABC.txt");
+        BufferedWriter bufferedWriter = new BufferedWriter(file);
 
         int n = Integer.parseInt(bufferedReader.readLine().trim());
 
